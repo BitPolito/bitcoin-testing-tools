@@ -1,0 +1,8 @@
+network=signet
+bitcoin-rpcuser=bitcoin
+bitcoin-rpcpassword=bitcoin
+bitcoin-rpcconnect=bitcoind_signet
+bitcoin-rpcport=38332
+
+log-level=debug
+log-file=/lightningd/lightningd.log
