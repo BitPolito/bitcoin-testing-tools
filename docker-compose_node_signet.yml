@@ -1,0 +1,27 @@
+version: "3.3"
+networks:
+  signet:
+
+services:
+  bitcoind_signet:
+    container_name: bitcoind_signet
+    build:
+        context: bitcoind_signet_node
+    image: bitcoind_signet
+    networks:
+      - signet
+    expose:
+      - "38333"
+      - "38332"
+    restart: always
+
+  c-lightning:
+    container_name: c-lightning
+    build:
+      context: c-lightning
+    image: core_lightning
+    networks:
+      - signet
+    expose:
+      - "9735"
+    restart: always
