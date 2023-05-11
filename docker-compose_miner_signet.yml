@@ -1,6 +1,6 @@
 version: "3.3"
 networks:
-  signet:
+  host:
 
 services:
   bitcoind_signet:
@@ -9,7 +9,7 @@ services:
         context: bitcoind_signet_miner_plugnplay
     image: bitcoind_signet
     networks:
-      - signet
+      - host
     expose:
       - "38333"
       - "38332"
@@ -21,7 +21,7 @@ services:
       context: c-lightning
     image: core_lightning
     networks:
-      - signet
+      - host
     expose:
       - "9735"
     restart: always
