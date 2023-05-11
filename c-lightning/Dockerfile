@@ -31,7 +31,7 @@ RUN cd /tmp/bitcoind && \
 RUN rm -rf /tmp/bitcoind
 
 # Set CL_VER ENV from ARG
-ARG CL_VER=23.02.2
+ARG CL_VER=23.05
 ENV CL_VER=${CL_VER}
 ARG CL_FILE=clightning-v${CL_VER}-Ubuntu-20.04.tar.xz
  
