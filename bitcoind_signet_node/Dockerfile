@@ -23,12 +23,12 @@ RUN cd /tmp && \
 RUN cd /tmp && grep "${BITCOIN_FILE}" SHA256SUMS | sha256sum -c -
 
 RUN cd /tmp && \
-	tar -zxf bitcoin-${BITCOIND_VER}-x86_64-linux-gnu.tar.gz && \
+	tar -zxf ${BITCOIN_FILE}z && \
 	cd bitcoin-${BITCOIND_VER} && \
 	install -vD bin/* /usr/bin && \
 	install -vD lib/* /usr/lib && \
 	cd /tmp && \
-	rm bitcoin-${BITCOIND_VER}-x86_64-linux-gnu.tar.gz && \
+	rm ${BITCOIN_FILE} && \
 	rm -rf bitcoin-${BITCOIND_VER}
 
 # bash completion for bitcoind and bitcoin-cli
