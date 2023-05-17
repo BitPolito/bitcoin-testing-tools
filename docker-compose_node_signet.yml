@@ -1,6 +1,4 @@
 version: "3.3"
-networks:
-  host:
 
 services:
   bitcoind_signet:
@@ -8,8 +6,7 @@ services:
     build:
         context: bitcoind_signet_node
     image: bitcoind_signet
-    networks:
-      - host
+    network_mode: "host"
     expose:
       - "38333"
       - "38332"
@@ -20,8 +17,7 @@ services:
     build:
       context: c-lightning
     image: core_lightning
-    networks:
-      - host
+    network_mode: "host"
     expose:
-      - "9735"
+      - "39735"
     restart: always
