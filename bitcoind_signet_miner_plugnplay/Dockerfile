@@ -19,24 +19,10 @@ RUN DEBIAN_FRONTEND=noninteractive \
 
 FROM os-base as bitcoind-install
 
-ARG BITCOIND_VER=24.0.1
-ARG BITCOIN_FILE=bitcoin-${BITCOIND_VER}-x86_64-linux-gnu.tar.gz
-# Install Bitcoin Core binaries and libraries
-RUN cd /tmp && \
-    curl -# -sLO https://bitcoincore.org/bin/bitcoin-core-${BITCOIND_VER}/${BITCOIN_FILE} && \
-    curl -# -sLO https://bitcoincore.org/bin/bitcoin-core-${BITCOIND_VER}/SHA256SUMS
-
-# Verify the integrity of the binaries
-RUN cd /tmp && grep "${BITCOIN_FILE}" SHA256SUMS | sha256sum -c -
-
-RUN cd /tmp && \
-	tar -zxf bitcoin-${BITCOIND_VER}-x86_64-linux-gnu.tar.gz && \
-	cd bitcoin-${BITCOIND_VER} && \
-	install -vD bin/* /usr/bin && \
-	install -vD lib/* /usr/lib && \
-	cd /tmp && \
-	rm bitcoin-${BITCOIND_VER}-x86_64-linux-gnu.tar.gz && \
-	rm -rf bitcoin-${BITCOIND_VER}
+# Install bitcoind
+COPY bitcoind-download.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/bitcoind-download.sh
+RUN bitcoind-download.sh
 
 # Install runtime scripts, bash-completion and configuration files
 

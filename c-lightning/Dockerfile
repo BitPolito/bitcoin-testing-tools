@@ -12,26 +12,13 @@ RUN DEBIAN_FRONTEND=noninteractive \
 FROM os-base as cln-install
 
 # Get bitcoin-cli
-ARG BITCOIND_VER=24.0.1
-ARG BITCOIN_FILE=bitcoin-${BITCOIND_VER}-x86_64-linux-gnu.tar.gz
-# Install Bitcoin Core binaries and libraries
-RUN cd /tmp && mkdir bitcoind
-RUN cd /tmp/bitcoind && \
-	curl -# -sLO https://bitcoincore.org/bin/bitcoin-core-${BITCOIND_VER}/${BITCOIN_FILE} && \
-    curl -# -sLO https://bitcoincore.org/bin/bitcoin-core-${BITCOIND_VER}/SHA256SUMS
-
-# Verify the integrity of the binaries
-RUN cd /tmp/bitcoind && grep "${BITCOIN_FILE}" SHA256SUMS | sha256sum -c -
-
-RUN cd /tmp/bitcoind && \
-	tar -zxf bitcoin-${BITCOIND_VER}-x86_64-linux-gnu.tar.gz && \
-	cd bitcoin-${BITCOIND_VER} && \
-    mv bin/bitcoin-cli /usr/bin/bitcoin-cli
-
-RUN rm -rf /tmp/bitcoind
+# Install bitcoind
+COPY bitcoind-download.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/bitcoind-download.sh
+RUN bitcoind-download.sh
 
 # Set CL_VER ENV from ARG
-ARG CL_VER=23.05
+ARG CL_VER=23.02
 ENV CL_VER=${CL_VER}
 ARG CL_FILE=clightning-v${CL_VER}-Ubuntu-20.04.tar.xz
  
@@ -45,6 +32,11 @@ RUN cd /tmp && \
 
 # Public Keys of Rusty Russel, Christian Decker, and Alex Myers
 RUN gpg --keyserver keyserver.ubuntu.com --recv-keys 15EE8D6CAB0E7F0CF999BFCBD9200E6CD1ADB8F1 B7C4BE81184FC203D52C35C51416D83DC4F0E86D 23A00AFC66BCD5FF9ED5DC4F8F55EE750D950E3E
+ADD https://raw.githubusercontent.com/ElementsProject/lightning/master/contrib/keys/cdecker.txt /tmp/cdecker.txt
+ADD https://raw.githubusercontent.com/ElementsProject/lightning/master/contrib/keys/niftynei.txt /tmp/niftynei.txt
+ADD https://raw.githubusercontent.com/ElementsProject/lightning/master/contrib/keys/rustyrussell.txt /tmp/rustyrussell.txt
+RUN gpg --import /tmp/cdecker.txt /tmp/niftynei.txt /tmp/rustyrussell.txt
+
 
 ADD https://github.com/ElementsProject/lightning/releases/download/v${CL_VER}/SHA256SUMS /tmp/SHA256SUMS
 ADD https://github.com/ElementsProject/lightning/releases/download/v${CL_VER}/SHA256SUMS.asc /tmp/SHA256SUMS.asc
@@ -73,7 +65,7 @@ RUN chmod +x /usr/local/bin/wait-for-bitcoind.sh
 COPY cli /usr/local/bin
 RUN chmod +x /usr/local/bin/cli
 
-EXPOSE 9735 9835
+EXPOSE 39735
 ENTRYPOINT ["/usr/local/bin/c-lightning-entrypoint.sh"]
 
 # Show logs from beginning and keep following
