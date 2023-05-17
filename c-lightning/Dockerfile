@@ -12,23 +12,10 @@ RUN DEBIAN_FRONTEND=noninteractive \
 FROM os-base as cln-install
 
 # Get bitcoin-cli
-ARG BITCOIND_VER=24.0.1
-ARG BITCOIN_FILE=bitcoin-${BITCOIND_VER}-x86_64-linux-gnu.tar.gz
-# Install Bitcoin Core binaries and libraries
-RUN cd /tmp && mkdir bitcoind
-RUN cd /tmp/bitcoind && \
-	curl -# -sLO https://bitcoincore.org/bin/bitcoin-core-${BITCOIND_VER}/${BITCOIN_FILE} && \
-    curl -# -sLO https://bitcoincore.org/bin/bitcoin-core-${BITCOIND_VER}/SHA256SUMS
-
-# Verify the integrity of the binaries
-RUN cd /tmp/bitcoind && grep "${BITCOIN_FILE}" SHA256SUMS | sha256sum -c -
-
-RUN cd /tmp/bitcoind && \
-	tar -zxf ${BITCOIN_FILE} && \
-	cd bitcoin-${BITCOIND_VER} && \
-    mv bin/bitcoin-cli /usr/bin/bitcoin-cli
-
-RUN rm -rf /tmp/bitcoind
+# Install bitcoind
+COPY bitcoind-download.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/bitcoind-download.sh
+RUN bitcoind-download.sh
 
 # Set CL_VER ENV from ARG
 ARG CL_VER=23.02
