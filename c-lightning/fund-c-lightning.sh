@@ -8,7 +8,7 @@ address=$(lightning-cli --lightning-dir=/lightningd newaddr | jq '.bech32' -r)
 until bitcoin-cli \
     --rpcuser=bitcoin \
     --rpcpassword=bitcoin \
-    --rpcconnect=bitcoind_signet:38332 \
+    --rpcconnect=localhost:38332 \
     --signet \
     sendtoaddress ${address} 10 "funding c-lightning"
 do
