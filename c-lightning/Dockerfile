@@ -65,7 +65,7 @@ RUN chmod +x /usr/local/bin/wait-for-bitcoind.sh
 COPY cli /usr/local/bin
 RUN chmod +x /usr/local/bin/cli
 
-EXPOSE 9735 9835
+EXPOSE 39735
 ENTRYPOINT ["/usr/local/bin/c-lightning-entrypoint.sh"]
 
 # Show logs from beginning and keep following
