@@ -33,6 +33,7 @@ case $architecture in
 
     cd /tmp && \
     git clone https://github.com/ElementsProject/lightning.git && \
+    cd lightning && \
     git fetch --all --tags && \
     git reset --hard v${CL_VER} && \
     git verify-tag v${CL_VER} && \
