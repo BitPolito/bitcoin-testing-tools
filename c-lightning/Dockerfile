@@ -5,9 +5,12 @@ FROM ${OS}:${OS_VER} as os-base
 # Install dependencies
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update -qq && apt-get install -yqq \
-    libpq-dev curl unzip jq bash-completion gpg xz-utils \
-    nmap nano autoconf automake build-essential git libtool libgmp-dev libsqlite3-dev \
-    zlib1g-dev libsodium-dev
+    libpq-dev curl unzip jq bash-completion gpg xz-utils nmap nano\
+    autoconf automake build-essential git libtool libgmp-dev libsqlite3-dev \
+    python3 python3-pip net-tools zlib1g-dev libsodium-dev
+
+RUN pip3 install --upgrade pip && \
+    pip3 install mako
 
 FROM os-base as cln-install
 
@@ -17,35 +20,10 @@ COPY bitcoind-download.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/bitcoind-download.sh
 RUN bitcoind-download.sh
 
-# Set CL_VER ENV from ARG
-ARG CL_VER=23.02
-ENV CL_VER=${CL_VER}
-ARG CL_FILE=clightning-v${CL_VER}-Ubuntu-20.04.tar.xz
- 
-RUN cd /tmp && \
-    curl -# -sLO https://github.com/ElementsProject/lightning/releases/download/v${CL_VER}/${CL_FILE}
-
-# Verify developer signatures. The `gpg --verify` command will print a
-# couple of warnings about the key not being trusted. That's ok. The
-# important part is that it doesn't error and reports "Good
-# signature".
-
-# Public Keys of Rusty Russel, Christian Decker, and Alex Myers
-RUN gpg --keyserver keyserver.ubuntu.com --recv-keys 15EE8D6CAB0E7F0CF999BFCBD9200E6CD1ADB8F1 B7C4BE81184FC203D52C35C51416D83DC4F0E86D 23A00AFC66BCD5FF9ED5DC4F8F55EE750D950E3E
-ADD https://raw.githubusercontent.com/ElementsProject/lightning/master/contrib/keys/cdecker.txt /tmp/cdecker.txt
-ADD https://raw.githubusercontent.com/ElementsProject/lightning/master/contrib/keys/niftynei.txt /tmp/niftynei.txt
-ADD https://raw.githubusercontent.com/ElementsProject/lightning/master/contrib/keys/rustyrussell.txt /tmp/rustyrussell.txt
-RUN gpg --import /tmp/cdecker.txt /tmp/niftynei.txt /tmp/rustyrussell.txt
-
-
-ADD https://github.com/ElementsProject/lightning/releases/download/v${CL_VER}/SHA256SUMS /tmp/SHA256SUMS
-ADD https://github.com/ElementsProject/lightning/releases/download/v${CL_VER}/SHA256SUMS.asc /tmp/SHA256SUMS.asc
-
-
-RUN gpg --verify /tmp/SHA256SUMS.asc && \
-    cd /tmp && grep "${CL_FILE}" SHA256SUMS | sha256sum -c -
-
-RUN tar -xvf /tmp/${CL_FILE}
+# Install c-lightning
+COPY c-lightningd-download.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/c-lightningd-download.sh
+RUN c-lightningd-download.sh
 
 ADD https://raw.githubusercontent.com/ElementsProject/lightning/master/contrib/lightning-cli.bash-completion /usr/share/bash-completion/completions/lightning-cli
 
