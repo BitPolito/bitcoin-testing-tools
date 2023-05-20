@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Executables
-CL_VER=23.02
+CL_VER=22.11.1
 
 # Import signing keys
 curl https://raw.githubusercontent.com/ElementsProject/lightning/master/contrib/keys/cdecker.txt | gpg --import
