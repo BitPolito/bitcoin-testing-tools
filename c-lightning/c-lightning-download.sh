@@ -40,7 +40,7 @@ case $architecture in
         git fetch --all --tags && \
         git reset --hard v${CL_VER} && \
         git verify-tag v${CL_VER} && \
-        ./configure --enable-experimental-features --ebable-developer && \
+        ./configure --enable-experimental-features --enable-developer && \
         make && \
         make install
         
