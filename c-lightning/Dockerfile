@@ -27,9 +27,9 @@ RUN chmod +x /usr/local/bin/bitcoind-download.sh
 RUN bitcoind-download.sh
 
 # Install c-lightning
-COPY c-lightningd-download.sh /usr/local/bin
-RUN chmod +x /usr/local/bin/c-lightningd-download.sh
-RUN c-lightningd-download.sh
+COPY c-lightning-download.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/c-lightning-download.sh
+RUN c-lightning-download.sh
 
 ADD https://raw.githubusercontent.com/ElementsProject/lightning/master/contrib/lightning-cli.bash-completion /usr/share/bash-completion/completions/lightning-cli
 
