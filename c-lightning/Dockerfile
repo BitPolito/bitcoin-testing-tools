@@ -37,7 +37,6 @@ COPY lightningd /lightningd
 WORKDIR /lightningd
 RUN ln -s /lightningd /root/.lightning
 
-COPY bashrc /root/.bashrc
 COPY c-lightning-entrypoint.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/c-lightning-entrypoint.sh
 COPY fund-c-lightning.sh /usr/local/bin
