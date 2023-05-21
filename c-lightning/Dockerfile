@@ -11,10 +11,12 @@ RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update -qq && apt-get install -qq -y --no-install-recommends \
     libpq-dev curl unzip jq bash-completion gpg xz-utils nmap nano \
     autoconf automake build-essential git libtool libgmp-dev libsqlite3-dev \
-    python3 python3-pip net-tools zlib1g-dev libsodium-dev gettext
+    python3 python3-pip net-tools zlib1g-dev libsodium-dev gettext \
+    valgrind shellcheck cppcheck libsecp256k1-dev lowdown
 
 RUN pip3 install --upgrade pip && \
-    pip3 install mako
+    pip3 install mako && \
+    pip3 install --user poetry
 
 FROM os-base as cln-install
 
