@@ -4,13 +4,12 @@ services:
   bitcoind_signet:
     container_name: bitcoind_signet
     build:
-        context: bitcoind_signet_node
+      context: bitcoind_signet_node
     image: bitcoind_signet
     network_mode: "host"
     expose:
       - "38333"
       - "38332"
-    restart: always
 
   c-lightning:
     container_name: c-lightning
@@ -20,4 +19,3 @@ services:
     network_mode: "host"
     expose:
       - "39735"
-    restart: always
