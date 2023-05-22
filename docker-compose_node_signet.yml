@@ -1,11 +1,11 @@
 version: "3.3"
 
 services:
-  bitcoind_signet:
-    container_name: bitcoind_signet
+  btc_sig_node:
+    container_name: btc_sig_node
     build:
       context: bitcoind_signet_node
-    image: bitcoind_signet
+    image: bitcoind_signet_node
     network_mode: "host"
     expose:
       - "38333"
