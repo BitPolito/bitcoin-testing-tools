@@ -28,9 +28,6 @@ do
 done
 
 # If loop is interrupted, stop bitcoind
-until bitcoin-cli -datadir=/bitcoind -rpcwait stop  > /dev/null 2>&1
-do
-    echo -n "."
-    sleep 1
-done
+bitcoin-cli -datadir=/bitcoind stop
+
 

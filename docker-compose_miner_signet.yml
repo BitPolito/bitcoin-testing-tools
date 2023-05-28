@@ -1,6 +1,16 @@
 version: "3.3"
 
 services:
+  tor:
+    container_name: tor
+    build:
+      context: tor
+    image: tor
+    network_mode: "host"
+    expose:
+      - "9050"
+      - "9051"
+
   btc_sig_miner:
     container_name: btc_sig_miner
     build:
