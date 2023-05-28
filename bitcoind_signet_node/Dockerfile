@@ -1,6 +1,6 @@
 ARG OS=ubuntu
 ARG OS_VER=focal
-FROM ${OS}:${OS_VER} as os-base
+FROM ${OS}:${OS_VER} as bitcoind-node
 
 # Install dependencies
 RUN DEBIAN_FRONTEND=noninteractive \
@@ -9,8 +9,6 @@ RUN DEBIAN_FRONTEND=noninteractive \
     apt-get install -y bc && \
     apt-get install -yqq \
     curl unzip jq bash-completion
-
-FROM os-base as bitcoind-install
 
 # Install bitcoind
 COPY bitcoind-download.sh /usr/local/bin
