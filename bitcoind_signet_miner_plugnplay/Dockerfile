@@ -6,7 +6,6 @@ FROM ${OS}:${OS_VER} as bitcoind-install
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update -qq && apt-get install -y nano  \
     net-tools nmap bc gpg curl unzip jq bash-completion git \
-    openssl cargo clang cmake \
     python3 python3-pip python3-setuptools && \
     pip install argparse requests cryptography pipreqs
 
@@ -25,17 +24,15 @@ ADD $GH_URL/contrib/completions/bash/bitcoind.bash-completion $BC/bitcoind
 ADD $GH_URL/contrib/completions/bash/bitcoin-tx.bash-completion $BC/bitcoin-tx
 
 # Copy bitcoind configuration directory
-COPY bitcoind /bitcoind
-
-RUN ln -s /bitcoind /root/.
+COPY bitcoind /data
 
 # Copy support scripts
 COPY download-minig-framework.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/download-minig-framework.sh
-RUN download-minig-framework.sh -s "test/functional/test_framework" -d "/bitcoind/test/functional/test_framework"
-RUN download-minig-framework.sh -s "contrib/signet" -d "/bitcoind/contrib/signet"
-RUN pipreqs /bitcoind/test/functional/test_framework
-RUN pip install -r /bitcoind/test/functional/test_framework/requirements.txt
+RUN download-minig-framework.sh -s "test/functional/test_framework" -d "/data/test/functional/test_framework"
+RUN download-minig-framework.sh -s "contrib/signet" -d "/data/contrib/signet"
+RUN pipreqs /data/test/functional/test_framework
+RUN pip install -r /data/test/functional/test_framework/requirements.txt
 
 COPY cli /usr/local/bin
 COPY bashrc /root/.bashrc
@@ -45,6 +42,7 @@ COPY mine.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/cli
 RUN chmod +x /usr/local/bin/bitcoind-entrypoint.sh
 RUN chmod +x /usr/local/bin/mine.sh
+RUN chmod +x /data/contrib/signet/miner
 
 # bitcoind P2P
 EXPOSE 38333/tcp

@@ -3,7 +3,7 @@ set -Eeuo pipefail
 
 # Define mining constants
 CLI="bitcoin-cli -datadir=/bitcoind"
-MINER="/bitcoind/contrib/signet/miner"
+MINER="/data/contrib/signet/miner"
 GRIND="bitcoin-util grind"
 MINING_DESC=$(cli listdescriptors | jq -r ".descriptors | .[4].desc")
 
@@ -12,8 +12,7 @@ do
     CURRBLOCK=$(bitcoin-cli -datadir=/bitcoind getblockcount)
     echo "Current blockcount: ${CURRBLOCK}"
     if [ $CURRBLOCK -le 100 ]; then
-        $MINER --cli="$CLI" generate --grind-cmd="$GRIND" --min-nbits --descriptor=$MINING_DESC --max-blocks=101
-        echo "Balance:" `bitcoin-cli -datadir=/bitcoind getbalance`
+        $MINER --cli="$CLI" generate --grind-cmd="$GRIND" --min-nbits --descriptor=$MINING_DESC --max-blocks=100
     fi
     
     # BITS calibration after 100 blocks
