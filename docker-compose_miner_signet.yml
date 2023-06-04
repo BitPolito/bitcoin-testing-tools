@@ -5,7 +5,7 @@ services:
     container_name: tor
     build:
       context: tor
-    image: tor
+    image: tor_img
     network_mode: "host"
     expose:
       - "9050"
@@ -16,10 +16,32 @@ services:
     build:
       context: bitcoind_signet_miner_plugnplay
     image: bitcoind_signet_miner
+    volumes:
+      - shared_vol:/bitcoind
     network_mode: "host"
     expose:
       - "38333"
       - "38332"
+
+  electrs:
+    container_name: electrs
+    build:
+      context: electrs
+    image: electrs_img
+    volumes:
+      - shared_vol:/bitcoind
+    network_mode: "host"
+    expose:
+      - "60601"
+
+  nginx:
+    container_name: nginx
+    build:
+      context: nginx
+    image: nginx_img
+    network_mode: "host"
+    expose:
+      - "60602"
 
   c-lightning:
     container_name: c-lightning
@@ -29,3 +51,6 @@ services:
     network_mode: "host"
     expose:
       - "39735"
+
+volumes:
+  shared_vol:
