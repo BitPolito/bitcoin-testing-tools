@@ -10,23 +10,24 @@ output_dir="/bitcoind/test/functional/test_framework"
 
 # parse command line options
 while getopts ":r:s:b:d:" opt; do
-  case ${opt} in
-    r ) repo="$OPTARG"
-      ;;
-    s ) subfolder="$OPTARG"
-      ;;
-    b ) branch="$OPTARG"
-      ;;
-    d ) dest_folder="$OPTARG"
-      ;;
-    \? ) echo "Usage: download_repo.sh [-r <repo>] [-s <subfolder>] [-b <branch>] [-d <dest_folder>]"
-         echo "Using default values:"
-         echo "Repository: $repo"
-         echo "Subfolder: $subfolder"
-         echo "Branch: $branch"
-         exit 1
-      ;;
-  esac
+    case ${opt} in
+        r ) repo="$OPTARG"
+        ;;
+        s ) subfolder="$OPTARG"
+        ;;
+        b ) branch="$OPTARG"
+        ;;
+        d ) output_dir="$OPTARG"
+        ;;
+        \? ) echo "Usage: download_repo.sh [-r <repo>] [-s <subfolder>] [-b <branch>] [-d <dest_folder>]"
+            echo "Using default values:"
+            echo "Repository: $repo"
+            echo "Subfolder: $subfolder"
+            echo "Branch: $branch"
+            echo "Destination folder: $output_dir"
+            exit 1
+        ;;
+    esac
 done
 shift $((OPTIND -1))
 
@@ -43,7 +44,7 @@ download_files() {
     while read dir; do
         download_files "$dir" "$2/$1"
     done
-
+    
     curl -s "https://api.github.com/repos/$repo/contents/$1" |
     jq -r '.[] | select(.type == "file").path' |
     while read path; do

@@ -1,23 +1,13 @@
 ARG OS=ubuntu
 ARG OS_VER=focal
-FROM ${OS}:${OS_VER} as os-base
+FROM ${OS}:${OS_VER} as bitcoind-install
 
 # Install dependencies
 RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get update -qq && \
-    apt-get -y install nano && \
-    apt-get install -y net-tools && \
-    apt-get install -y nmap && \
-    apt-get install -y bc && \
-    apt-get install -yqq gpg \
-    curl unzip jq bash-completion \
-    git \
-    python3 \
-    python3-pip \
-    python3-setuptools && \
+    apt-get update -qq && apt-get install -y nano  \
+    net-tools nmap bc gpg curl unzip jq bash-completion git \
+    python3 python3-pip python3-setuptools && \
     pip install argparse requests cryptography pipreqs
-
-FROM os-base as bitcoind-install
 
 # Install bitcoind
 COPY bitcoind-download.sh /usr/local/bin
@@ -34,21 +24,15 @@ ADD $GH_URL/contrib/completions/bash/bitcoind.bash-completion $BC/bitcoind
 ADD $GH_URL/contrib/completions/bash/bitcoin-tx.bash-completion $BC/bitcoin-tx
 
 # Copy bitcoind configuration directory
-COPY bitcoind /bitcoind
-
-RUN ln -s /bitcoind /root/.
-
-# Getting script for signet
-# https://github.com/bitcoin/bitcoin/tree/master/contrib/signet
-ADD $GH_URL/contrib/signet/getcoins.py /bitcoind/contrib/signet/getcoins.py
-ADD $GH_URL/contrib/signet/miner /bitcoind/contrib/signet/miner
-RUN chmod +x /bitcoind/contrib/signet/miner
+COPY bitcoind /data
 
 # Copy support scripts
 COPY download-minig-framework.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/download-minig-framework.sh
-RUN download-minig-framework.sh "test/functional/test_framework" "/bitcoind/test/functional/test_framework"
-RUN download-minig-framework.sh "contrib/signet" "/bitcoind/contrib/signet"
+RUN download-minig-framework.sh -s "test/functional/test_framework" -d "/data/test/functional/test_framework"
+RUN download-minig-framework.sh -s "contrib/signet" -d "/data/contrib/signet"
+RUN pipreqs /data/test/functional/test_framework
+RUN pip install -r /data/test/functional/test_framework/requirements.txt
 
 COPY cli /usr/local/bin
 COPY bashrc /root/.bashrc
@@ -58,9 +42,7 @@ COPY mine.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/cli
 RUN chmod +x /usr/local/bin/bitcoind-entrypoint.sh
 RUN chmod +x /usr/local/bin/mine.sh
-
-RUN pipreqs /bitcoind/test/functional/test_framework
-RUN pip install -r /bitcoind/test/functional/test_framework/requirements.txt
+RUN chmod +x /data/contrib/signet/miner
 
 # bitcoind P2P
 EXPOSE 38333/tcp

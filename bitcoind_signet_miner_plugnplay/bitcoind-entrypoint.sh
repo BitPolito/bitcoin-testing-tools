@@ -1,6 +1,10 @@
 #!/bin/bash
 set -Eeuo pipefail
 
+# Move bitcoin.conf to /bitcoind
+mv /data/bitcoin.conf /bitcoind/bitcoin.conf
+ln -s /bitcoind /root/.
+
 # Check if there is already the 'signetchallenge' option in 'bitcoin.conf' different from the default
 # 'signetchallenge=00000000' added to not download any chain.
 echo "===================================="
@@ -10,7 +14,7 @@ do
     # Check line by line
     if [[ "$line" == *"signetchallenge=00000000"* ]]; then
         SIGNETCHALLENGE=false
-    elif [[ "$line" == *"signetchallenge="* ]]; then
+        elif [[ "$line" == *"signetchallenge="* ]]; then
         echo "'signetchallenge' param already present in bitcoin.conf"
         echo "$line"
         SIGNETCHALLENGE=true
@@ -22,7 +26,7 @@ if [ $SIGNETCHALLENGE = false ]; then
     # Start bitcoind
     echo "Starting bitcoind..."
     bitcoind -datadir=/bitcoind -daemon 2>&1 > /dev/null
-
+    
     # Wait for bitcoind startup
     until bitcoin-cli -datadir=/bitcoind -rpcwait getblockchaininfo  > /dev/null 2>&1
     do
@@ -42,7 +46,7 @@ if [ $SIGNETCHALLENGE = false ]; then
     ADDR=$(bitcoin-cli -datadir=/bitcoind getnewaddress)
     SCRIPT=$(bitcoin-cli -datadir=/bitcoind getaddressinfo $ADDR | jq -r ".scriptPubKey")
     sed -i "s/signetchallenge=00000000/signetchallenge=$SCRIPT/" /bitcoind/bitcoin.conf
-
+    
     
     # Dumping descriptor wallet privatekey
     WALLETFILE="${WALLET}_privkey.txt"
@@ -87,24 +91,24 @@ if [ $SIGNETCHALLENGE = false ]; then
         else
             is_even="false"
         fi
-
-
+        
+        
         DESCRIPTORS="
         {
-        \"desc\": \"${line}\",
-        \"timestamp\": \"now\",
-        \"active\": true,
-        \"internal\": ${is_even},
-        \"range\": [
-           0,
-           999
-        ]
+            \"desc\": \"${line}\",
+            \"timestamp\": \"now\",
+            \"active\": true,
+            \"internal\": ${is_even},
+            \"range\": [
+                0,
+                999
+            ]
         }"
-
+        
         DESCRIPTORS="[${DESCRIPTORS//[$'\t\r\n ']}]"
-
+        
         bitcoin-cli -datadir=/bitcoind importdescriptors "$DESCRIPTORS" 2>&1 > /dev/null
-
+        
     done < "/bitcoind/${WALLETFILE}"
     echo "$(bitcoin-cli -datadir=/bitcoind listdescriptors)"
     echo "================================================"
@@ -118,6 +122,10 @@ else
     echo "Bitcoin core wallet \"$WALLET\" loaded."
     echo "================================================"
 fi
+
+# Get the signet magic string from bitcoind debug logs
+SIG_MAGIC=`cat /bitcoind/signet/debug.log | grep -oP 'Signet derived magic \(message start\): \K[a-f0-9]+'`
+echo $SIG_MAGIC > /bitcoind/sig_magic.txt
 
 # Executing CMD
 exec "$@"
