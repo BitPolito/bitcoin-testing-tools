@@ -10,6 +10,3 @@ COPY nginx.conf /etc/nginx
 COPY electrs-reverse-proxy.conf /etc/nginx/streams-enabled
 
 EXPOSE 60602
-
-# WORKDIR /root
-# CMD ["nginx", "-g", "daemon off;"]

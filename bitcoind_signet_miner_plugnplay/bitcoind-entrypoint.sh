@@ -2,8 +2,11 @@
 set -Eeuo pipefail
 
 # Move bitcoin.conf to /bitcoind
-mv /data/bitcoin.conf /bitcoind/bitcoin.conf
-ln -s /bitcoind /root/.
+if [ -f "/data/bitcoin.conf" ]; then
+    mv /data/bitcoin.conf /bitcoind/bitcoin.conf
+    ln -s /bitcoind /root/.
+    # If not is assumed that the bitcoin.conf is already in /bitcoind
+fi
 
 # Check if there is already the 'signetchallenge' option in 'bitcoin.conf' different from the default
 # 'signetchallenge=00000000' added to not download any chain.
