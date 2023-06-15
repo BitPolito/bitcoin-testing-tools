@@ -6,3 +6,7 @@ CookieAuthFileGroupReadable 1
 HiddenServiceDir /var/lib/tor/hidden_service_electrs/
 HiddenServiceVersion 3
 HiddenServicePort 60602 127.0.0.1:60602
+
+# Bitcoin
+HiddenServiceDir /var/lib/tor/hidden_service_bitcoind/
+HiddenServicePort 38333 127.0.0.1:38333
