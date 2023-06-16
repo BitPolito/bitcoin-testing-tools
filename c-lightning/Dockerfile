@@ -9,7 +9,7 @@ RUN ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && echo $TIMEZONE > /et
 # Install dependencies
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update -qq && apt-get install -qq -y --no-install-recommends \
-    libpq-dev curl unzip jq bash-completion gpg xz-utils nmap nano \
+    libpq-dev curl unzip jq bash-completion gpg gpg-agent xz-utils nmap nano \
     autoconf automake build-essential git libtool libgmp-dev libsqlite3-dev \
     python3 python3-pip net-tools zlib1g-dev libsodium-dev gettext \
     valgrind shellcheck cppcheck libsecp256k1-dev
@@ -19,6 +19,10 @@ RUN pip3 install --upgrade pip && \
     pip3 install --user poetry
 
 FROM os-base as cln-install
+
+# Install nodejs
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - &&\
+    apt install -y nodejs
 
 # Get bitcoin-cli
 # Install bitcoind
@@ -33,6 +37,8 @@ RUN c-lightning-download.sh
 
 ADD https://raw.githubusercontent.com/ElementsProject/lightning/master/contrib/lightning-cli.bash-completion /usr/share/bash-completion/completions/lightning-cli
 
+RUN mkdir /lightningd
+
 COPY lightningd /lightningd
 WORKDIR /lightningd
 RUN ln -s /lightningd /root/.lightning
@@ -45,6 +51,8 @@ COPY logtail.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/logtail.sh
 COPY wait-for-bitcoind.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/wait-for-bitcoind.sh
+COPY cln-rest-plugin.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/cln-rest-plugin.sh
 COPY cli /usr/local/bin
 RUN chmod +x /usr/local/bin/cli
 

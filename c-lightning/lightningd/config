@@ -6,3 +6,5 @@ bitcoin-rpcport=38332
 
 log-level=debug
 log-file=/lightningd/lightningd.log
+autocleaninvoice-cycle=86400
+autocleaninvoice-expired-by=86400
