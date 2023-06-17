@@ -9,7 +9,7 @@ SIGNETMAGIC=true
 while read -r line
 do
     # Check line by line
-    if [[ "$line" == *"signet_magic"* ]]; then
+    if [[ "$line" == *"signet_magic ="* ]]; then
         SIGNETMAGIC=false
     fi
 done < "/electrum/electrs.conf"
