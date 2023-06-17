@@ -1,8 +1,14 @@
 ControlPort 9051
 CookieAuthentication 1
+HashedControlPassword 16:0842DCF8C7AADE0660D4017BA614594A4A13498B6253FEC0E7681224DD
 CookieAuthFileGroupReadable 1
 
 # Electrum server
 HiddenServiceDir /var/lib/tor/hidden_service_electrs/
 HiddenServiceVersion 3
 HiddenServicePort 60602 127.0.0.1:60602
+
+# Lightning-REST
+HiddenServiceDir /var/lib/tor/hidden_service_cln_rest/
+HiddenServiceVersion 3
+HiddenServicePort 8080 127.0.0.1:3092

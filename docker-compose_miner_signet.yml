@@ -51,6 +51,7 @@ services:
     network_mode: "host"
     expose:
       - "39735"
+      - "3092"
 
 volumes:
   shared_vol:
