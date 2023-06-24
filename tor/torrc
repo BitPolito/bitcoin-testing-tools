@@ -12,3 +12,8 @@ HiddenServicePort 60602 127.0.0.1:60602
 HiddenServiceDir /var/lib/tor/hidden_service_cln_rest/
 HiddenServiceVersion 3
 HiddenServicePort 8080 127.0.0.1:3092
+
+# Faucet
+HiddenServiceDir /var/lib/tor/hidden_service_faucet/
+HiddenServiceVersion 3
+HiddenServicePort 5001 127.0.0.1:5001

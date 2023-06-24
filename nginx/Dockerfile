@@ -7,6 +7,6 @@ RUN openssl req -x509 -nodes -newkey rsa:4096 -keyout /etc/ssl/private/nginx-sel
     mkdir -p /etc/nginx/streams-enabled
 
 COPY nginx.conf /etc/nginx
-COPY electrs-reverse-proxy.conf /etc/nginx/streams-enabled
+COPY *-reverse-proxy.conf /etc/nginx/streams-enabled
 
 EXPOSE 60602
