@@ -31,6 +31,8 @@ COPY cli /usr/local/bin
 COPY bashrc /root/.bashrc
 COPY bitcoind-entrypoint.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/bitcoind-entrypoint.sh
+COPY fund-bitcoind.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/fund-bitcoind.sh
 
 RUN chmod +x /usr/local/bin/cli
 

@@ -16,4 +16,4 @@ HiddenServicePort 8080 127.0.0.1:3092
 # Faucet
 HiddenServiceDir /var/lib/tor/hidden_service_faucet/
 HiddenServiceVersion 3
-HiddenServicePort 5001 127.0.0.1:5001
+HiddenServicePort 5050 127.0.0.1:5000

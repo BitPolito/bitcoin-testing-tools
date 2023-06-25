@@ -1,6 +1,8 @@
 #!/bin/bash
 set -Eeuo pipefail
 
+source /usr/local/bin/fund-bitcoind.sh
+
 echo "===================================="
 echo "BITCOIN CONF:"
 echo
