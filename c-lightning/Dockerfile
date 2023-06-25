@@ -9,7 +9,7 @@ RUN ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && echo $TIMEZONE > /et
 # Install dependencies
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update -qq && apt-get install -qq -y --no-install-recommends \
-    libpq-dev curl unzip jq bash-completion gpg gpg-agent xz-utils nmap nano \
+    libpq-dev curl unzip jq bash-completion gpg gpg-agent xz-utils nmap nano xxd \
     autoconf automake build-essential git libtool libgmp-dev libsqlite3-dev \
     python3 python3-pip net-tools zlib1g-dev libsodium-dev gettext \
     valgrind shellcheck cppcheck libsecp256k1-dev

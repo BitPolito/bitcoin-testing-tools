@@ -12,7 +12,7 @@ do
     CURRBLOCK=$(bitcoin-cli -datadir=/bitcoind getblockcount)
     echo "Current blockcount: ${CURRBLOCK}"
     if [ $CURRBLOCK -le 100 ]; then
-        $MINER --cli="$CLI" generate --grind-cmd="$GRIND" --min-nbits --descriptor=$MINING_DESC --max-blocks=100
+        $MINER --cli="$CLI" generate --grind-cmd="$GRIND" --min-nbits --descriptor=$MINING_DESC --max-blocks=101
     fi
     
     # BITS calibration after 100 blocks

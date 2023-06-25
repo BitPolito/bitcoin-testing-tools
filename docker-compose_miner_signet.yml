@@ -53,5 +53,14 @@ services:
       - "39735"
       - "3092"
 
+  faucet:
+    container_name: faucet
+    build:
+      context: faucet
+    image: faucet_img
+    network_mode: "host"
+    expose:
+      - "5000"
+
 volumes:
   shared_vol:
