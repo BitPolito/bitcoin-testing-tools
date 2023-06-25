@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Bitcoin faucet .onion address
-BITCOIN_MINER_URL="bitcoindmineronionaddress.onion"
-SIGNETCHALLENGE="00000signetchallenge"
+BITCOIN_MINER_URL="0.0.0.0"
+SIGNETCHALLENGE="00000000signetofminernode"
 FAUCET_URL="bitcoindfaucetonionaddress.onion"
 
 sed -i "s/signetchallenge=00000000signetofminernode/signetchallenge=$SIGNETCHALLENGE/" ./bitcoind_signet_node/bitcoind/bitcoin.conf

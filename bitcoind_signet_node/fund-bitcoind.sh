@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Bitcoin faucet .onion address
-FAUCET_URL=bitcoindfaucetonionaddress.onion
+FAUCET_URL=djhldxysczvhrq4sq44one5xglcktj52g7un2664q646uw7rvabbynyd.onion
 ADDR=`cli getnewaddress`
 
 

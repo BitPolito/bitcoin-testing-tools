@@ -16,6 +16,8 @@ services:
     build:
       context: bitcoind_signet_node
     image: bitcoind_signet_node
+    volumes:
+      - shared_vol:/bitcoind
     network_mode: "host"
     expose:
       - "38333"
