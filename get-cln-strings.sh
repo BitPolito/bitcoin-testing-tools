@@ -11,9 +11,14 @@ CLN_MACAROON=`run-in-node c-lightning 'xxd -ps -u -c 1000 /lightningd/cln-plugin
 CLN_ID=`run-in-node c-lightning 'cli getinfo | jq -r ".id"'`
 
 echo "String for connecting to c-lightning REST API to ZEUS app:"
-echo "c-lightning-rest://http://${CLN_REST}:8080?&macaroon=${CLN_MACAROON}&protocol=http"
+REST_STR="c-lightning-rest://http://${CLN_REST}:8080?&macaroon=${CLN_MACAROON}&protocol=http"
+echo $REST_STR
 echo ""
 
 echo "String to give to your peers to connect to your node:"
-echo "${CLN_ID}@${CLN_ONION}:39735"
+ID_STR="${CLN_ID}@${CLN_ONION}:39735"
+echo $ID_STR
 
+# Get QR codes to scan
+curl -# -sLO  https://api.qrserver.com/v1/create-qr-code/?data=${REST_STR}&format=png&size=512x512
+curl -# -sLO  https://api.qrserver.com/v1/create-qr-code/?data=${ID_STR}&format=png&size=512x512
