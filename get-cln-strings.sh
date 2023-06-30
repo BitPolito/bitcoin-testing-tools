@@ -20,5 +20,5 @@ ID_STR="${CLN_ID}@${CLN_ONION}:39735"
 echo $ID_STR
 
 # Get QR codes to scan
-curl -# -sLO  https://api.qrserver.com/v1/create-qr-code/?data=${REST_STR}&format=png&size=512x512
-curl -# -sLO  https://api.qrserver.com/v1/create-qr-code/?data=${ID_STR}&format=png&size=512x512
+curl -so "ZeusControl.png"  "https://api.qrserver.com/v1/create-qr-code/?data=$(jq -s -R -r @uri <<< "$REST_STR")&format=png&size=512x512&margin=10"
+curl -so "peerID.png" "https://api.qrserver.com/v1/create-qr-code/?data=$(jq -s -R -r @uri <<< "$ID_STR")&format=png&size=512x512&margin=10"
