@@ -29,7 +29,12 @@ do
 done
 echo "Startup complete"
 sleep 2
-echo "Funding c-lightning wallet"
-source /usr/local/bin/fund-c-lightning.sh
+
+if [ $(lightning-cli listfunds | jq -r ".outputs[].value" | awk '{s+=$1} END {print s}') -lt 1000000 ]; then
+    echo "Funding c-lightning wallet"
+    source /usr/local/bin/fund-c-lightning.sh
+else
+    echo "c-lightning already funded."
+fi
 
 exec "$@"
