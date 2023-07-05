@@ -1,8 +1,21 @@
 #!/bin/bash
 set -Eeuo pipefail
 
-# Install plugins first
-source /usr/local/bin/cln-rest-plugin.sh
+# Install plugins first if not already installed
+CLN_REST=false
+while read -r line
+do
+    # Check line by line
+    if [[ "$line" == *"# cln-rest-plugin"* ]]; then
+        echo "'cln-rest-plugin' already present in config"
+        CLN_REST=true
+    fi
+done < "/lightningd/config"
+
+if [ "$CLN_REST" = false ]; then
+    echo "Installing 'cln-rest-plugin'..."
+    source /usr/local/bin/cln-rest-plugin.sh
+fi
 
 # Wait for bitcoind to be ready
 source /usr/local/bin/wait-for-bitcoind.sh
