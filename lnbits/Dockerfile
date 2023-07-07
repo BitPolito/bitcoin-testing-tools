@@ -31,7 +31,7 @@ RUN cd /root/lnbits && \
     poetry env use python3.10 && \
     poetry install --only main
 
-COPY .env /root/lnbits/.env
+COPY .env /root/lnbits
 RUN chmod 600 /root/lnbits/.env
 COPY wait-for-bitcoind.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/wait-for-bitcoind.sh
