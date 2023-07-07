@@ -1,12 +1,14 @@
 #!/bin/bash
 
 # Executables
-CL_VER=22.11.1
+CL_VER=23.05.2
 
 # Import signing keys
-curl https://raw.githubusercontent.com/ElementsProject/lightning/master/contrib/keys/cdecker.txt | gpg --import
-curl https://raw.githubusercontent.com/ElementsProject/lightning/master/contrib/keys/niftynei.txt | gpg --import
-curl https://raw.githubusercontent.com/ElementsProject/lightning/master/contrib/keys/rustyrussell.txt | gpg --import
+# Ref. https://docs.corelightning.org/docs/security-policy
+gpg --keyserver hkps://keys.openpgp.org --recv-keys "15EE 8D6C AB0E 7F0C F999 BFCB D920 0E6C D1AD B8F1" # Rusty Russell
+gpg --keyserver hkps://keys.openpgp.org --recv-keys "B731 AAC5 21B0 1385 9313 F674 A26D 6D9F E088 ED58" # Christian Decker
+gpg --keyserver hkps://keys.openpgp.org --recv-keys "30DE 693A E0DE 9E37 B3E7 EB6B BFF0 F678 10C1 EED1" # Lisa Neigut
+gpg --keyserver hkps://keys.openpgp.org --recv-keys "0437 4E42 789B BBA9 462E 4767 F3BF 63F2 7474 36AB" # Alex Myers
 
 # Get the machine architecture
 architecture=$(uname -m)

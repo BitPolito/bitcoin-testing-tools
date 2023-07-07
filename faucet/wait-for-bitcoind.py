@@ -2,7 +2,7 @@ import time
 import requests
 from app import api
 
-print("Waiting for bitcoind to start...")
+print("Waiting for bitcoind to be fund...")
 url = "http://localhost:38332/"
 auth = ("bitcoin", "bitcoin")
 headers = {"content-type": "text/plain;"}

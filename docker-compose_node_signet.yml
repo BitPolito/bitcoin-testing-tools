@@ -17,7 +17,7 @@ services:
       context: bitcoind_signet_node
     image: bitcoind_signet_node
     volumes:
-      - shared_vol:/bitcoind
+      - shared_vol_btc:/bitcoind
     network_mode: "host"
     expose:
       - "38333"
@@ -29,7 +29,7 @@ services:
       context: electrs
     image: electrs_img
     volumes:
-      - shared_vol:/bitcoind
+      - shared_vol_btc:/bitcoind
     network_mode: "host"
     expose:
       - "60601"
@@ -48,10 +48,24 @@ services:
     build:
       context: c-lightning
     image: core_lightning
+    volumes:
+      - shared_vol_ln:/lightningd
     network_mode: "host"
     expose:
       - "39735"
       - "3092"
 
+  lnbits:
+    container_name: lnbits
+    build:
+      context: lnbits
+    image: lnbits_img
+    volumes:
+      - shared_vol_ln:/lightningd
+    network_mode: "host"
+    expose:
+      - "7000"
+
 volumes:
-  shared_vol:
+  shared_vol_btc:
+  shared_vol_ln:

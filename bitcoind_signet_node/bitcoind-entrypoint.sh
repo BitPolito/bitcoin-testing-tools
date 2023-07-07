@@ -28,8 +28,8 @@ echo $SIG_MAGIC > /bitcoind/sig_magic.txt
 
 # If wallet that already exists, load, so don't fail if it does,
 # just load the existing wallet:
-WALLET=$(bitcoin-cli -datadir=/bitcoind listwallets | jq -r '.[0]')
-if [ -f /bitcoind/signet/wallets/$WALLET/$WALLET.dat ]; then
+WALLET=$(ls /bitcoind/signet/wallets -1 | head -1 | tail -1)
+if [ -f /bitcoind/signet/wallets/$WALLET/wallet.dat ]; then
     echo "================================================"
     echo "Loading the main wallet:"
     echo $WALLET
