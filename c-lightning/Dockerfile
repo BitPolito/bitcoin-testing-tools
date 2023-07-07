@@ -37,11 +37,7 @@ RUN c-lightning-download.sh
 
 ADD https://raw.githubusercontent.com/ElementsProject/lightning/master/contrib/lightning-cli.bash-completion /usr/share/bash-completion/completions/lightning-cli
 
-RUN mkdir /lightningd
-
-COPY lightningd /lightningd
-WORKDIR /lightningd
-RUN ln -s /lightningd /root/.lightning
+COPY lightningd /data
 
 COPY c-lightning-entrypoint.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/c-lightning-entrypoint.sh

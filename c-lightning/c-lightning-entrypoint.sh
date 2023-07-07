@@ -1,6 +1,13 @@
 #!/bin/bash
 set -Eeuo pipefail
 
+# Move conf to /lightningd
+if [ -f "/data/config" ]; then
+    mv /data/config /lightningd/config
+    ln -s /lightningd /root/.lightning
+    # If not is assumed that the config is already in /lightningd
+fi
+
 # Install plugins first if not already installed
 CLN_REST=false
 while read -r line
@@ -30,7 +37,7 @@ done
 echo "Startup complete"
 sleep 2
 
-if [ $(lightning-cli listfunds | jq -r ".outputs[].value" | awk '{s+=$1} END {print s}') -lt 1000000 ]; then
+if [ $(lightning-cli listfunds | jq -r ".outputs" | jq "length <= 0") ]; then
     echo "Funding c-lightning wallet"
     source /usr/local/bin/fund-c-lightning.sh
 else
