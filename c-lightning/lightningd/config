@@ -1,7 +1,7 @@
 network=signet
 bitcoin-rpcuser=bitcoin
 bitcoin-rpcpassword=bitcoin
-bitcoin-rpcconnect=localhost
+bitcoin-rpcconnect=0.0.0.0
 bitcoin-rpcport=38332
 
 log-level=debug
