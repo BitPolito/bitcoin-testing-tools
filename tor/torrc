@@ -17,3 +17,8 @@ HiddenServicePort 8080 127.0.0.1:3092
 HiddenServiceDir /var/lib/tor/hidden_service_faucet/
 HiddenServiceVersion 3
 HiddenServicePort 5050 127.0.0.1:5000
+
+# Hidden service LNbits
+HiddenServiceDir /var/lib/tor/hidden_service_lnbits/
+HiddenServiceVersion 3
+HiddenServicePort 7070 127.0.0.1:7000
