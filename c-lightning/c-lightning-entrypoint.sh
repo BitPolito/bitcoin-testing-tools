@@ -37,7 +37,7 @@ done
 echo "Startup complete"
 sleep 2
 
-if [ $(lightning-cli listfunds | jq -r ".outputs" | jq "length <= 0") ]; then
+if [ $(lightning-cli listfunds | jq -r ".outputs" | jq "length <= 0") == true ]; then
     echo "Funding c-lightning wallet"
     source /usr/local/bin/fund-c-lightning.sh
 else
