@@ -18,7 +18,8 @@ mkdir -p /lightningd/cln-plugins \
   \"PROTOCOL\": \"http\",
   \"EXECMODE\": \"test\",
   \"RPCCOMMANDS\": [\"*\"],
-  \"DOMAIN\": \"localhost\"
+  \"DOMAIN\": \"localhost\",
+  \"LNRPCPATH\": \"/lightningd/signet\",
 }" > cl-rest-config.json
 
 echo "# cln-rest-plugin
@@ -26,4 +27,5 @@ plugin=/lightningd/cln-plugins/c-lightning-REST-${CLN_REST_VER}/clrest.js
 rest-port=3092
 rest-docport=4091
 rest-execmode=test
-rest-protocol=http" >> "/lightningd/config"
+rest-protocol=http
+rest-lnrpcpath=/lightningd/signet" >> "/lightningd/config"

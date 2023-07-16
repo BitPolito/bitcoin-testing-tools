@@ -66,6 +66,17 @@ services:
     expose:
       - "7000"
 
+  rtl:
+    container_name: rtl
+    build:
+      context: rtl
+    image: rtl_img
+    volumes:
+      - shared_vol_ln:/lightningd
+    network_mode: "host"
+    expose:
+      - "3000"
+
 volumes:
   shared_vol_btc:
   shared_vol_ln:
