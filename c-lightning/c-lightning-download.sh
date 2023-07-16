@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Executables
-CL_VER=23.05.2
-
 # Import signing keys
 # Ref. https://docs.corelightning.org/docs/security-policy
 gpg --keyserver hkps://keys.openpgp.org --recv-keys "15EE 8D6C AB0E 7F0C F999 BFCB D920 0E6C D1AD B8F1" # Rusty Russell
@@ -27,9 +24,9 @@ case $architecture in
         cd /tmp && grep "${CL_FILE}" /tmp/SHA256SUMS | sha256sum -c -
         cd / && tar -xvf /tmp/${CL_FILE}
         
-        echo "alias lightning-cli=\"lightning-cli --lightning-dir=/lightningd\"" > "/root/.bashrc"
-        echo "[[ \$PS1 && -f /usr/share/bash-completion/bash_completion ]] && \\" >> "/root/.bashrc"
-        echo "    . /usr/share/bash-completion/bash_completion" >> "/root/.bashrc"
+        echo "alias lightning-cli=\"lightning-cli --lightning-dir=/lightningd\"
+        [[ \$PS1 && -f /usr/share/bash-completion/bash_completion ]] && \\
+        . /usr/share/bash-completion/bash_completion" > "/root/.bashrc"
         
     ;;
     aarch64)
@@ -46,9 +43,9 @@ case $architecture in
         make && \
         make install
         
-        echo "alias lightning-cli=\"lightning-cli --lightning-dir=/lightningd\"" > "/root/.bashrc"
-        echo "[[ -f /usr/share/bash-completion/bash_completion ]] && \\" >> "/root/.bashrc"
-        echo "    . /usr/share/bash-completion/bash_completion" >> "/root/.bashrc"
+        echo "alias lightning-cli=\"lightning-cli --lightning-dir=/lightningd\"
+        [[ \$PS1 && -f /usr/share/bash-completion/bash_completion ]] && \\
+        . /usr/share/bash-completion/bash_completion" > "/root/.bashrc"
         
     ;;
 esac
