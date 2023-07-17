@@ -1,4 +1,4 @@
-CLN_REST_VER=0.10.1
+
 
 # Add cln-REST plugin config to c-lightning config
 mkdir -p /lightningd/cln-plugins \
@@ -16,13 +16,16 @@ mkdir -p /lightningd/cln-plugins \
   \"PORT\": 3092,
   \"DOCPORT\": 4091,
   \"PROTOCOL\": \"http\",
-  \"EXECMODE\": \"production\",
+  \"EXECMODE\": \"test\",
   \"RPCCOMMANDS\": [\"*\"],
-  \"DOMAIN\": \"localhost\"
+  \"DOMAIN\": \"localhost\",
+  \"LNRPCPATH\": \"/lightningd/signet\",
 }" > cl-rest-config.json
 
-echo "# cln-rest-plugin" >> "/lightningd/config"
-echo "plugin=/lightningd/cln-plugins/c-lightning-REST-${CLN_REST_VER}/clrest.js" >> "/lightningd/config"
-echo "rest-port=3092" >> "/lightningd/config"
-echo "rest-docport=4091" >> "/lightningd/config"
-echo "rest-protocol=http" >> "/lightningd/config"
+echo "# cln-rest-plugin
+plugin=/lightningd/cln-plugins/c-lightning-REST-${CLN_REST_VER}/clrest.js
+rest-port=3092
+rest-docport=4091
+rest-execmode=test
+rest-protocol=http
+rest-lnrpcpath=/lightningd/signet" >> "/lightningd/config"

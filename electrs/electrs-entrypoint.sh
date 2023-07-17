@@ -14,7 +14,7 @@ do
     fi
 done < "/electrum/electrs.conf"
 
-if [ $SIGNETMAGIC = false ]; then
+if [ $SIGNETMAGIC == false ]; then
     echo "'signet_magic' already present in electrs.conf"
 else
     echo "signet_magic = \"${SIG_MAGIC}\"" >> "/electrum/electrs.conf"

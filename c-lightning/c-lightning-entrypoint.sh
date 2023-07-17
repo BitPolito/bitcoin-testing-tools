@@ -37,6 +37,16 @@ done
 echo "Startup complete"
 sleep 2
 
+if [ -f "/lightnigd/access.macaroon" ]; then
+    # If the file exists, check if the magic string is the same
+    echo "'access.macaroon': $(xxd -ps -u -c 1000 /lightningd/access.macaroon)"
+else
+    # If the file doesn't exist, move it from c-lightning-REST
+    cp /lightningd/cln-plugins/c-lightning-REST-${CLN_REST_VER}/certs/access.macaroon /root/access.macaroon
+    cp /lightningd/cln-plugins/c-lightning-REST-${CLN_REST_VER}/certs/access.macaroon /lightningd/access.macaroon
+    
+fi
+
 if [ $(lightning-cli listfunds | jq -r ".outputs" | jq "length <= 0") == true ]; then
     echo "Funding c-lightning wallet"
     source /usr/local/bin/fund-c-lightning.sh

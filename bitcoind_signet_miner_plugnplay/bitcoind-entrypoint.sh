@@ -127,8 +127,16 @@ else
 fi
 
 # Get the signet magic string from bitcoind debug logs
-SIG_MAGIC=`cat /bitcoind/signet/debug.log | grep -oP 'Signet derived magic \(message start\): \K[a-f0-9]+'`
-echo $SIG_MAGIC > /bitcoind/sig_magic.txt
+
+
+if [ -f "/bitcoind/sig_magic.txt" ]; then
+    # If the file exists, check if the magic string is the same
+    echo "Signet magic: $(cat /bitcoind/sig_magic.txt)"
+else
+    # If the file doesn't exist, create it
+    SIG_MAGIC=`cat /bitcoind/signet/debug.log | grep -oP 'Signet derived magic \(message start\): \K[a-f0-9]+'`
+    echo $SIG_MAGIC > /bitcoind/sig_magic.txt
+fi
 
 # Executing CMD
 exec "$@"

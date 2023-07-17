@@ -26,14 +26,19 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - &&\
 
 # Get bitcoin-cli
 # Install bitcoind
+ENV BITCOIND_VER="24.0.1"
 COPY bitcoind-download.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/bitcoind-download.sh
 RUN bitcoind-download.sh
 
 # Install c-lightning
+ENV CL_VER="23.05.2"
 COPY c-lightning-download.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/c-lightning-download.sh
 RUN c-lightning-download.sh
+
+# Plugin ver
+ENV CLN_REST_VER="0.10.5"
 
 ADD https://raw.githubusercontent.com/ElementsProject/lightning/master/contrib/lightning-cli.bash-completion /usr/share/bash-completion/completions/lightning-cli
 
