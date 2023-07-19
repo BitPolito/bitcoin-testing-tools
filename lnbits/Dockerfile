@@ -18,12 +18,14 @@ RUN DEBIAN_FRONTEND=noninteractive \
     apt-get install -qq -y \
     python3.10 python3.10-distutils python3-pip
 
+ENV LNBITS_VER="0.10.9"
+
 RUN pip3 install --upgrade pip && \
     pip3 install poetry && \
     pip3 install wheel
 
 RUN cd /root && \
-    git clone https://github.com/lnbits/lnbits.git
+    git --depth=1 --branch v${LNBITS_VER} clone https://github.com/lnbits/lnbits.git
 
 RUN mkdir -p /root/lnbits/data
 

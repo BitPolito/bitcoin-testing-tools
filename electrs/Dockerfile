@@ -11,11 +11,11 @@ RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update -qq && apt-get install -qq -y \
     nano curl gpg jq openssl git cargo clang cmake
 
-ARG ELECTRS_VERSION=0.9.13
+ARG ELECTRS_VERSION="0.9.13"
 RUN mkdir -p /electrum
 
 RUN cd /electrum && \
-    git clone --branch v${ELECTRS_VERSION} https://github.com/romanz/electrs.git
+    git clone --depth=1 --branch v${ELECTRS_VERSION} https://github.com/romanz/electrs.git
 
 # Verify signs
 RUN cd /electrum/electrs && \
