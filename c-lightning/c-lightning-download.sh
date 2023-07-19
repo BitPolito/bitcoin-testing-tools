@@ -34,10 +34,8 @@ case $architecture in
         echo "Compiling the source code..."
         
         cd /tmp && \
-        git clone --depth=1 --branch v${CLN_VER} https://github.com/ElementsProject/lightning.git && \
+        git clone --depth=1 --branch v${CL_VER} https://github.com/ElementsProject/lightning.git && \
         cd lightning && \
-        git fetch --all --tags && \
-        git reset --hard v${CL_VER} && \
         git verify-tag v${CL_VER} && \
         ./configure --enable-experimental-features --enable-developer && \
         make && \
