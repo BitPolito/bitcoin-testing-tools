@@ -2,7 +2,7 @@
 
 # Bitcoin faucet .onion address
 FAUCET_URL=bitcoindfaucetonionaddress.onion
-ADDR=`cli getnewaddress`
+ADDR=`bitcoin-cli getnewaddress`
 
 
 RESPONSE=`curl --silent --socks5-hostname localhost:9050 "${FAUCET_URL}:5050/faucet?address=${ADDR}"`
