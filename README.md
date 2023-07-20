@@ -77,4 +77,4 @@ docker exec btc_sig_miner bitcoin-cli -datadir=/bitcoind send '{"<new-address>":
 ```
 
 #### Core-Lightning 
-By running the `get-cln-strings.sh` make sure to run it after at least 100 blocks), strings to control the Core-Lightning node through [Zeus](https://github.com/ZeusLN/zeus) app and to share your node with other peers will be displayed. However, Zeus is not able to decode signet invoices, so peers cannot pay/receive any invoices. With some luck, one can use RTL which runs on *http://localhost:3000
+By running the `get-cln-strings.sh` make sure to run it after at least 100 blocks), strings to control the Core-Lightning node through [Zeus](https://github.com/ZeusLN/zeus) app and to share your node with other peers will be displayed. However, Zeus is not able to decode signet invoices, so peers cannot pay/receive any invoices. With some luck, one can use RTL which runs on http://localhost:3000
