@@ -42,7 +42,7 @@ From the "miner" can be useful to retrieve, the bitcoin core, the electrum serve
 echo "Bitcoin tor addr: $(docker exec btc_sig_miner cli getnetworkinfo | jq -r '.localaddresses[].address')"
 
 # Bitcoin Signetchallenge
-echo " Bitcoin $(docker exec btc_sig_miner cat /bitcoind/bitcoin.conf | grep signetchallenge)"
+echo "Bitcoin $(docker exec btc_sig_miner cat /bitcoind/bitcoin.conf | grep signetchallenge)"
 
 # Electrum Server address
 echo "Electrum server tor addr: $(docker exec tor cat /var/lib/tor/hidden_service_electrs/hostname)"
