@@ -12,7 +12,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     libpq-dev curl unzip jq bash-completion gpg gpg-agent xz-utils nmap nano xxd \
     autoconf automake build-essential git libtool libgmp-dev libsqlite3-dev \
     python3 python3-pip net-tools zlib1g-dev libsodium-dev gettext \
-    valgrind shellcheck cppcheck libsecp256k1-dev
+    valgrind shellcheck cppcheck libsecp256k1-dev dirmngr
 
 RUN pip3 install --upgrade pip && \
     pip3 install mako && \

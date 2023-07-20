@@ -1,11 +1,11 @@
 # Use the official Node.js image as the base image
 FROM node:20
 
-ENV RTL_VER="0.14.0"
+ENV RTL_VER="0.13.4"
 
 RUN apt-get update && apt-get install -y git nano curl gpg jq
 RUN curl https://keybase.io/suheb/pgp_keys.asc | gpg --import
-RUN git clone https://github.com/Ride-The-Lightning/RTL.git
+RUN git clone --depth=1 --branch v${RTL_VER} https://github.com/Ride-The-Lightning/RTL.git
 
 COPY rtl-entrypoint.sh /RTL
 RUN chmod +x /RTL/rtl-entrypoint.sh
