@@ -1,49 +1,29 @@
-ARG OS=ubuntu
-ARG OS_VER=focal
-FROM ${OS}:${OS_VER} as os-base
+FROM python:3.10-slim-bullseye
 
-# Set TimeZone
-ENV TIMEZONE=Europe/Rome
-RUN ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && echo $TIMEZONE > /etc/timezone
+RUN apt-get clean
+RUN apt-get update
+RUN apt-get install -y curl pkg-config build-essential  apt-utils wget git jq nano
 
-# Install dependencies
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get update -qq && apt-get install -qq -y \
-    gnupg git curl nano xxd jq libffi-dev libpq-dev \
-    software-properties-common
-
-RUN add-apt-repository ppa:deadsnakes/ppa
-
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get install -qq -y \
-    python3.10 python3.10-distutils python3-pip
+# Install poetry
+RUN curl -sSL https://install.python-poetry.org | python3 -
+ENV PATH="/root/.local/bin:$PATH"
 
 ENV LNBITS_VER="0.10.9"
 
-RUN pip3 install --upgrade pip && \
-    pip3 install poetry && \
-    pip3 install wheel
+WORKDIR /app
 
-RUN cd /root && \
-    git clone --depth=1 --branch ${LNBITS_VER} https://github.com/lnbits/lnbits.git
+RUN git clone --depth=1 --branch ${LNBITS_VER} https://github.com/lnbits/lnbits.git
+RUN mkdir -p /app/lnbits/data
 
-RUN mkdir -p /root/lnbits/data
+RUN cd /app/lnbits && poetry install --only main
 
-RUN cd /root/lnbits && \
-    poetry env use python3.10 && \
-    poetry install --only main
-
-COPY .env /root/lnbits
-RUN chmod 600 /root/lnbits/.env
-COPY wait-for-bitcoind.sh /usr/local/bin
-RUN chmod +x /usr/local/bin/wait-for-bitcoind.sh
-COPY run-lnbits.sh /usr/local/bin
-RUN chmod +x /usr/local/bin/run-lnbits.sh
+COPY .env /app/lnbits
+RUN chmod 600 /app/lnbits/.env
+COPY wait-for-bitcoind.sh /app
+RUN chmod +x /app/wait-for-bitcoind.sh
 
 ENV LNBITS_PORT="7000"
 ENV LNBITS_HOST="0.0.0.0"
 
-EXPOSE ${LNBITS_PORT}
-
-ENTRYPOINT ["/usr/local/bin/wait-for-bitcoind.sh"]
-CMD ["/usr/local/bin/run-lnbits.sh"]
+ENTRYPOINT ["/app/wait-for-bitcoind.sh"]
+CMD ["sh", "-c", "cd /app/lnbits && poetry run lnbits --port $LNBITS_PORT --host $LNBITS_HOST"]
