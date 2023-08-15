@@ -25,7 +25,7 @@ RUN pip3 install --upgrade pip && \
     pip3 install wheel
 
 RUN cd /root && \
-    git --depth=1 --branch v${LNBITS_VER} clone https://github.com/lnbits/lnbits.git
+    git clone --depth=1 --branch ${LNBITS_VER} https://github.com/lnbits/lnbits.git
 
 RUN mkdir -p /root/lnbits/data
 
