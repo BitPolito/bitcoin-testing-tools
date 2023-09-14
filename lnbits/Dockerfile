@@ -8,7 +8,7 @@ RUN apt-get install -y curl pkg-config build-essential  apt-utils wget git jq na
 RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="/root/.local/bin:$PATH"
 
-ENV LNBITS_VER="0.10.9"
+ENV LNBITS_VER="0.10.10"
 
 WORKDIR /app
 
