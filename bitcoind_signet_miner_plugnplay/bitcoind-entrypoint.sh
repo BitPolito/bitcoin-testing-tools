@@ -99,7 +99,7 @@ if [ $SIGNETCHALLENGE = false ]; then
         DESCRIPTORS="
         {
             \"desc\": \"${line}\",
-            \"timestamp\": \"now\",
+            \"timestamp\": 0,
             \"active\": true,
             \"internal\": ${is_even},
             \"range\": [
