@@ -20,9 +20,9 @@ RUN bitcoind-download.sh
 # bash completion for bitcoind and bitcoin-cli
 ENV GH_URL https://raw.githubusercontent.com/bitcoin/bitcoin/master
 ENV BC /usr/share/bash-completion/completions
-ADD $GH_URL/contrib/completions/bash/bitcoin-cli.bash-completion $BC/bitcoin-cli
-ADD $GH_URL/contrib/completions/bash/bitcoind.bash-completion $BC/bitcoind
-ADD $GH_URL/contrib/completions/bash/bitcoin-tx.bash-completion $BC/bitcoin-tx
+ADD $GH_URL/contrib/completions/bash/bitcoin-cli.bash $BC/bitcoin-cli
+ADD $GH_URL/contrib/completions/bash/bitcoind.bash $BC/bitcoind
+ADD $GH_URL/contrib/completions/bash/bitcoin-tx.bash $BC/bitcoin-tx
 
 # Copy bitcoind configuration directory
 COPY bitcoind /data
